@@ -1,0 +1,42 @@
+version: '3'
+services:
+
+  mysql:
+    image: mysql/mysql-server:8.0.27-1.2.6-server
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_USER=mysqluser
+      - MYSQL_PASSWORD=mysqlpw
+      - MYSQL_DATABASE=service_template
+      - MYSQL_ROOT_HOST=%
+
+  prometheus:
+    build: ./prometheus
+    ports:
+      - 9090:9090
+
+  keycloak:
+    build: ./keycloak
+    ports:
+      - 8091:8091
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - DB_VENDOR=h2
+
+  zipkin:
+    image: openzipkin/zipkin:2.23
+    ports:
+      - "9411:9411"
+    environment:
+      JAVA_OPTS: -Xmx64m
+
+  keycloak-test-proxy:
+    build: ./keycloak-test-proxy
+    ports:
+      - 8093:80
+    depends_on:
+      - keycloak
+

@@ -1,0 +1,5 @@
+const val dockerComposePluginVersion="0.16.8"
+const val testContainersVersion = "1.17.3"
+const val restAssuredVersion = "4.3.3"
+const val springFoxVersion = "2.9.2"
+const val springBootVersion = "2.6.2"
